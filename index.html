@@ -32,12 +32,6 @@
 <div class="logo-section">
     <img src="logo.png" alt="Logo KATARIS" />
   </div>
-  <h2>Login Admin KATARIS</h2>
-  <input type="text" id="adminUser" placeholder="Username" required /><br/>
-  <input type="password" id="adminPass" placeholder="Password" required /><br/>
-  <button onclick="loginAdmin()" class="submit">Login</button>
-  <p id="loginError" style="color: red; display: none;">Username atau password salah!</p>
-</div>
 <div id="dashboard" style="display: none;">
   <header>...</header>
   <nav>...</nav>
@@ -179,21 +173,7 @@
 </main>
 
 <script>
-    function loginAdmin() {
-  const user = document.getElementById("adminUser").value;
-  const pass = document.getElementById("adminPass").value;
 
-  // Ganti ini sesuai kebutuhan admin
-  const validUser = "admin";
-  const validPass = "kataris123";
-
-  if (user === validUser && pass === validPass) {
-    document.getElementById("loginPage").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
-  } else {
-    document.getElementById("loginError").style.display = "block";
-  }
-}
 
   // Navigasi
   const buttons = document.querySelectorAll("nav button");
