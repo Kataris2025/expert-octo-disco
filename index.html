@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KATARIS - Karang Taruna Information System</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f7f9fb; }
+    header { background: #004aad; color: white; padding: 20px; text-align: center; font-size: 1.5em; }
+    nav { background: #003375; display: flex; flex-wrap: wrap; justify-content: center; }
+    nav button {
+      padding: 12px 18px; border: none; background: none; color: white; font-size: 1em;
+      cursor: pointer; transition: background 0.3s;
+    }
+    nav button:hover, nav button.active { background: #0059ff; }
+    main { max-width: 1000px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px #ddd; }
+    section { display: none; }
+    section.active { display: block; }
+    h2 { color: #004aad; margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; }
+    th { background-color: #004aad; color: white; }
+    input, select, textarea {
+      width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 4px;
+    }
+    button.submit { background: #004aad; color: white; padding: 10px 16px; border: none; cursor: pointer; }
+    button.submit:hover { background: #003375; }
+  </style>
+</head>
+<body>
+<div id="loginPage" style="padding: 50px; text-align: center;"
+<div class="logo-section">
+    <img src="logo.png" alt="Logo KATARIS" />
+  </div>
+  <h2>Login Admin KATARIS</h2>
+  <input type="text" id="adminUser" placeholder="Username" required /><br/>
+  <input type="password" id="adminPass" placeholder="Password" required /><br/>
+  <button onclick="loginAdmin()" class="submit">Login</button>
+  <p id="loginError" style="color: red; display: none;">Username atau password salah!</p>
+</div>
+<div id="dashboard" style="display: none;">
+  <header>...</header>
+  <nav>...</nav>
+  <main>...</main>
+</div>
+
+
+<header>KATARIS - Karang Taruna Information System</header>
+
+<nav>
+  <button class="active" data-target="profil">Profil Digital</button>
+  <button data-target="registrasi">Registrasi & Akreditasi</button>
+  <button data-target="ecommerce">UMKM E-Commerce</button>
+  <button data-target="payment">Payment & Transaksi</button>
+  <button data-target="pelaporan">Pelaporan Dana Stimulan</button>
+  <button data-target="stunting">Stunting & Gizi</button>
+  <button data-target="forum">Forum Komunitas</button>
+  <button data-target="pelatihan">Pelatihan & Sertifikasi</button>
+  <button data-target="monitoring">Monitoring & Dashboard</button>
+</nav>
+
+<main>
+  <!-- 1. Profil Digital -->
+  <section id="profil" class="active">
+    <h2>Profil Digital</h2>
+    <p>Platform ini mendukung digitalisasi organisasi Karang Taruna melalui sistem informasi yang terintegrasi.</p>
+  </section>
+
+  <!-- 2. Registrasi -->
+  <section id="registrasi">
+    <h2>Registrasi & Akreditasi NIK</h2>
+    <form id="formRegistrasi">
+      <input type="text" id="nik" placeholder="NIK (16 digit)" maxlength="16" required />
+      <input type="text" id="nama" placeholder="Nama Lengkap" required />
+      <input type="text" id="jabatan" placeholder="Jabatan" required />
+      <select id="karangtaruna" required>
+        <option value="">--Jenis Karang Taruna--</option>
+        <option value="Kecamatan">Kecamatan</option>
+        <option value="Kelurahan">Kelurahan</option>
+        <option value="UKKT">UKKT</option>
+      </select>
+      <input type="email" id="email" placeholder="Email Aktif" required />
+      <input type="tel" id="telepon" placeholder="Nomor Telepon" required />
+      <button type="submit" class="submit">Daftar</button>
+    </form>
+    <table id="tableRegistrasi" style="display:none;">
+      <thead>
+        <tr><th>NIK</th><th>Nama</th><th>Jabatan</th><th>Karang Taruna</th><th>Email</th><th>Telepon</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- 3. E-Commerce -->
+  <section id="ecommerce">
+    <h2>UMKM E-Commerce</h2>
+    <ul>
+      <li><strong>Kerajinan Bambu</strong> - Rp 50.000</li>
+      <li><strong>Olahan Makanan</strong> - Rp 25.000</li>
+      <li><strong>Batik Lokal</strong> - Rp 150.000</li>
+    </ul>
+  </section>
+
+  <!-- 4. Payment -->
+  <section id="payment">
+    <h2>Payment & Transaksi</h2>
+    <form id="formPayment">
+      <input type="text" id="payerName" placeholder="Nama Pembayar" required />
+      <input type="number" id="amount" placeholder="Jumlah Pembayaran (Rp)" required min="1000" />
+      <button type="submit" class="submit">Bayar</button>
+    </form>
+    <table id="tablePayment" style="display:none;">
+      <thead><tr><th>Nama</th><th>Jumlah</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- 5. Pelaporan -->
+  <section id="pelaporan">
+    <h2>Pelaporan Dana Stimulan</h2>
+    <form id="formPelaporan">
+      <input type="text" id="pelapor" placeholder="Nama Pelapor" required />
+      <input type="date" id="tanggal" required />
+      <textarea id="keterangan" rows="3" placeholder="Keterangan Penggunaan Dana" required></textarea>
+      <button type="submit" class="submit">Kirim</button>
+    </form>
+    <div id="laporanHasil"></div>
+  </section>
+
+  <!-- 6. Stunting -->
+  <section id="stunting">
+    <h2>Data Stunting & Gizi Balita</h2>
+    <table>
+      <thead><tr><th>Wilayah</th><th>Jumlah Balita</th><th>Stunting</th><th>Gizi Baik</th></tr></thead>
+      <tbody>
+        <tr><td>Menteng</td><td>75</td><td>3</td><td>72</td></tr>
+        <tr><td>Cempaka Putih</td><td>120</td><td>7</td><td>113</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 7. Forum -->
+  <section id="forum">
+    <h2>Forum Komunikasi</h2>
+    <form id="formForum">
+      <input type="text" id="username" placeholder="Nama Pengguna" required />
+      <textarea id="postContent" rows="3" placeholder="Pesan atau diskusi" required></textarea>
+      <button type="submit" class="submit">Kirim</button>
+    </form>
+    <div id="forumPosts" style="margin-top:20px;"></div>
+  </section>
+
+  <!-- 8. Pelatihan -->
+  <section id="pelatihan">
+    <h2>Pelatihan & Sertifikasi</h2>
+    <form id="formPelatihan">
+      <input type="text" id="peserta" placeholder="Nama Peserta" required />
+      <select id="materi" required>
+        <option value="">-- Pilih Materi --</option>
+        <option value="Kewirausahaan">Kewirausahaan</option>
+        <option value="Digital Marketing">Digital Marketing</option>
+      </select>
+      <button type="submit" class="submit">Daftar</button>
+    </form>
+    <div id="pelatihanResult"></div>
+  </section>
+
+  <!-- 9. Monitoring -->
+  <section id="monitoring">
+    <h2>Monitoring & Evaluasi</h2>
+    <table>
+      <thead><tr><th>Kecamatan</th><th>Kegiatan</th><th>Karang Taruna</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Gambir</td><td>10</td><td>4</td><td>Aktif</td></tr>
+        <tr><td>Senen</td><td>15</td><td>5</td><td>Baik</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+    function loginAdmin() {
+  const user = document.getElementById("adminUser").value;
+  const pass = document.getElementById("adminPass").value;
+
+  // Ganti ini sesuai kebutuhan admin
+  const validUser = "admin";
+  const validPass = "kataris123";
+
+  if (user === validUser && pass === validPass) {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+  } else {
+    document.getElementById("loginError").style.display = "block";
+  }
+}
+
+  // Navigasi
+  const buttons = document.querySelectorAll("nav button");
+  const sections = document.querySelectorAll("main section");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      sections.forEach(sec => sec.classList.remove("active"));
+      document.getElementById(btn.dataset.target).classList.add("active");
+    });
+  });
+
+  // Registrasi
+  document.getElementById("formRegistrasi").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const nik = document.getElementById("nik").value;
+    if (!/^\d{16}$/.test(nik)) return alert("NIK harus 16 digit.");
+    const nama = document.getElementById("nama").value;
+    const jabatan = document.getElementById("jabatan").value;
+    const kt = document.getElementById("karangtaruna").value;
+    const email = document.getElementById("email").value;
+    const telp = document.getElementById("telepon").value;
+    const row = `<tr><td>${nik}</td><td>${nama}</td><td>${jabatan}</td><td>${kt}</td><td>${email}</td><td>${telp}</td></tr>`;
+    document.querySelector("#tableRegistrasi tbody").insertAdjacentHTML('beforeend', row);
+    document.getElementById("tableRegistrasi").style.display = "table";
+    this.reset();
+  });
+
+  // Payment
+  document.getElementById("formPayment").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("payerName").value;
+    const amount = parseInt(document.getElementById("amount").value);
+    if (amount < 1000) return alert("Minimal Rp 1.000");
+    const row = `<tr><td>${name}</td><td>Rp ${amount.toLocaleString("id-ID")}</td></tr>`;
+    document.querySelector("#tablePayment tbody").insertAdjacentHTML('beforeend', row);
+    document.getElementById("tablePayment").style.display = "table";
+    this.reset();
+  });
+
+  // Pelaporan
+  document.getElementById("formPelaporan").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const pelapor = document.getElementById("pelapor").value;
+    const tanggal = document.getElementById("tanggal").value;
+    const ket = document.getElementById("keterangan").value;
+    document.getElementById("laporanHasil").innerHTML =
+      `<p><strong>${pelapor}</strong> telah mengirim laporan pada ${tanggal}:<br>${ket}</p>`;
+    this.reset();
+  });
+
+  // Forum
+  const forumPosts = [];
+  document.getElementById("formForum").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const user = document.getElementById("username").value;
+    const content = document.getElementById("postContent").value;
+    forumPosts.unshift({ user, content });
+    renderForum();
+    this.reset();
+  });
+
+  function renderForum() {
+    const div = document.getElementById("forumPosts");
+    div.innerHTML = "";
+    forumPosts.forEach(p => {
+      div.innerHTML += `<div style="border-bottom:1px solid #ccc; margin-bottom:10px;">
+        <strong>${p.user}</strong><p>${p.content}</p></div>`;
+    });
+  }
+
+  // Pelatihan
+  document.getElementById("formPelatihan").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const nama = document.getElementById("peserta").value;
+    const materi = document.getElementById("materi").value;
+    document.getElementById("pelatihanResult").innerHTML =
+      `<p>${nama} terdaftar untuk pelatihan <strong>${materi}</strong>.</p>`;
+    this.reset();
+  });
+</script>
+
+</body>
+</html>
