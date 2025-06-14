@@ -188,20 +188,41 @@
   });
 
   // Registrasi
-  document.getElementById("formRegistrasi").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const nik = document.getElementById("nik").value;
-    if (!/^\d{16}$/.test(nik)) return alert("NIK harus 16 digit.");
-    const nama = document.getElementById("nama").value;
-    const jabatan = document.getElementById("jabatan").value;
-    const kt = document.getElementById("karangtaruna").value;
-    const email = document.getElementById("email").value;
-    const telp = document.getElementById("telepon").value;
-    const row = `<tr><td>${nik}</td><td>${nama}</td><td>${jabatan}</td><td>${kt}</td><td>${email}</td><td>${telp}</td></tr>`;
-    document.querySelector("#tableRegistrasi tbody").insertAdjacentHTML('beforeend', row);
-    document.getElementById("tableRegistrasi").style.display = "table";
-    this.reset();
-  });
+ document.getElementById("formRegistrasi").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const nik = document.getElementById("nik").value;
+  const nama = document.getElementById("nama").value;
+  const jabatan = document.getElementById("jabatan").value;
+  const kt = document.getElementById("karangtaruna").value;
+  const email = document.getElementById("email").value;
+  const telp = document.getElementById("telepon").value;
+
+  if (!/^\d{16}$/.test(nik)) {
+    alert("NIK harus 16 digit.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("entry.1709939064", nik);
+  formData.append("entry.935481775", nama);
+  formData.append("entry.1342079231", jabatan);
+  formData.append("entry.1326610703", kt);
+  formData.append("entry.1431814387", email);
+  formData.append("entry.539282647", telp);
+
+  fetch("https://docs.google.com/forms/d/e/1FAIpQLScpiUuGLY1Hmxu3VxkZck1VuwQT8T4ZIN9_M7XG9ZdrDROpWw/formResponse", {
+    method: "POST",
+    mode: "no-cors",
+    body: formData,
+  }).then(() => {
+    alert("Data berhasil dikirim ke Google Form!");
+    document.getElementById("formRegistrasi").reset();
+  }).catch((err) => {
+    alert("Gagal mengirim data.");
+    console.error(err);
+  });
+});
 
   // Payment
   document.getElementById("formPayment").addEventListener("submit", function (e) {
