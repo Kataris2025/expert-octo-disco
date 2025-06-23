@@ -28,7 +28,6 @@
   </style>
 </head>
 <body>
-<div id="loginPage" style="padding: 50px; text-align: center;"
 <div class="logo-section">
     <img src="logo.png" alt="Logo KATARIS" />
   </div>
@@ -60,30 +59,29 @@
     <p>Platform ini mendukung digitalisasi organisasi Karang Taruna melalui sistem informasi yang terintegrasi.</p>
   </section>
 
-   <!-- 2. Registrasi dan Akreditasi -->
+  <!-- 2. Registrasi -->
   <section id="registrasi">
-    <h2>Registrasi dan Akreditasi Berbasis NIK</h2>
+    <h2>Registrasi & Akreditasi NIK</h2>
     <form id="formRegistrasi">
-      <label for="nik">NIK</label>
-      <input type="text" id="nik" maxlength="16" required />
-      <label for="nama">Nama</label>
-      <input type="text" id="nama" required />
-      <label for="jabatan">Jabatan</label>
-      <input type="text" id="jabatan" required />
-      <label for="karangtaruna">Karang Taruna</label>
+      <input type="text" id="nik" placeholder="NIK (16 digit)" maxlength="16" required />
+      <input type="text" id="nama" placeholder="Nama Lengkap" required />
+      <input type="text" id="jabatan" placeholder="Jabatan" required />
       <select id="karangtaruna" required>
-        <option value="">--Pilih--</option>
+        <option value="">--Jenis Karang Taruna--</option>
         <option value="Kecamatan">Kecamatan</option>
         <option value="Kelurahan">Kelurahan</option>
         <option value="UKKT">UKKT</option>
       </select>
-      <label for="email">Email</label>
-      <input type="email" id="email" required />
-      <label for="telepon">Telepon</label>
-      <input type="tel" id="telepon" required />
+      <input type="email" id="email" placeholder="Email Aktif" required />
+      <input type="tel" id="telepon" placeholder="Nomor Telepon" required />
       <button type="submit" class="submit">Daftar</button>
     </form>
-    <div id="formStatus"></div>
+    <table id="tableRegistrasi" style="display:none;">
+      <thead>
+        <tr><th>NIK</th><th>Nama</th><th>Jabatan</th><th>Karang Taruna</th><th>Email</th><th>Telepon</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </section>
 
   <!-- 3. E-Commerce -->
@@ -98,29 +96,42 @@
 
   <!-- 4. Payment -->
   <section id="payment">
-    <h2>Payment & Transaksi</h2>
-    <form id="formPayment">
-      <input type="text" id="payerName" placeholder="Nama Pembayar" required />
-      <input type="number" id="amount" placeholder="Jumlah Pembayaran (Rp)" required min="1000" />
-      <button type="submit" class="submit">Bayar</button>
-    </form>
-    <table id="tablePayment" style="display:none;">
-      <thead><tr><th>Nama</th><th>Jumlah</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </section>
+  <h2>Payment & Transaksi</h2>
+  <form id="formPayment">
+    <input type="text" id="payerName" placeholder="Nama Pembayar" required />
+    <input type="number" id="amount" placeholder="Jumlah Pembayaran (Rp)" required min="1000" />
+    <select id="method" required>
+      <option value="">-- Pilih Metode Pembayaran --</option>
+      <option value="Transfer Bank">Transfer Bank</option>
+      <option value="E-Wallet">E-Wallet</option>
+      <option value="QRIS">QRIS</option>
+    </select>
+    <textarea id="catatan" rows="2" placeholder="Catatan Pembayaran (opsional)"></textarea>
+    <button type="submit" class="submit">Bayar</button>
+  </form>
+  <table id="tablePayment" style="display:none;">
+    <thead>
+      <tr><th>Nama</th><th>Jumlah</th><th>Metode</th><th>Catatan</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
 
   <!-- 5. Pelaporan -->
-  <section id="pelaporan">
+     <section id="pelaporan">
     <h2>Pelaporan Dana Stimulan</h2>
-    <form id="formPelaporan">
-      <input type="text" id="pelapor" placeholder="Nama Pelapor" required />
-      <input type="date" id="tanggal" required />
-      <textarea id="keterangan" rows="3" placeholder="Keterangan Penggunaan Dana" required></textarea>
-      <button type="submit" class="submit">Kirim</button>
-    </form>
-    <div id="laporanHasil"></div>
-  </section>
+ <form id="formPelaporan" enctype="multipart/form-data">
+  <input type="text" id="pelapor" placeholder="Nama Pelapor" required />
+  <input type="date" id="tanggal" required />
+  <textarea id="keterangan" rows="3" placeholder="Keterangan Penggunaan Dana" required></textarea>
+
+  <label for="buktiPdf">Upload Bukti PDF (Maks 2 MB):</label>
+  <input type="file" id="buktiPdf" accept="application/pdf" required />
+
+  <button type="submit" class="submit">Kirim</button>
+</form>
+<div id="laporanHasil"></div>
+</section>
 
   <!-- 6. Stunting -->
   <section id="stunting">
@@ -188,85 +199,98 @@
     });
   });
 
+  // Registrasi
+ document.getElementById("formRegistrasi").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const nik = document.getElementById("nik").value;
+  const nama = document.getElementById("nama").value;
+  const jabatan = document.getElementById("jabatan").value;
+  const kt = document.getElementById("karangtaruna").value;
+  const email = document.getElementById("email").value;
+  const telp = document.getElementById("telepon").value;
+
+  if (!/^\d{16}$/.test(nik)) {
+    alert("NIK harus 16 digit.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("entry.1867974503", nik);
+  formData.append("entry.1674114930", nama);
+  formData.append("entry.123038952", jabatan);
+  formData.append("entry.1799065368", kt);
+  formData.append("entry.233537548", email);
+  formData.append("entry.2001375883", telp);
+
+  fetch("https://docs.google.com/forms/d/e/1FAIpQLScpiUuGLY1Hmxu3VxkZck1VuwQT8T4ZIN9_M7XG9ZdrDROpWw/formResponse", {
+    method: "POST",
+    mode: "no-cors",
+    body: formData,
+  }).then(() => {
+    alert("Data berhasil dikirim ke Google Form!");
+    document.getElementById("formRegistrasi").reset();
+  }).catch((err) => {
+    alert("Gagal mengirim data.");
+    console.error(err);
+  });
+});
 
   // Payment
   document.getElementById("formPayment").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const name = document.getElementById("payerName").value;
-    const amount = parseInt(document.getElementById("amount").value);
-    if (amount < 1000) return alert("Minimal Rp 1.000");
-    const row = `<tr><td>${name}</td><td>Rp ${amount.toLocaleString("id-ID")}</td></tr>`;
-    document.querySelector("#tablePayment tbody").insertAdjacentHTML('beforeend', row);
-    document.getElementById("tablePayment").style.display = "table";
-    this.reset();
-  });
-  // Google Form submit registrasi
-  document.getElementById("formRegistrasi").addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const nik = document.getElementById("nik").value;
-    const nama = document.getElementById("nama").value;
-    const jabatan = document.getElementById("jabatan").value;
-    const karangtaruna = document.getElementById("karangtaruna").value;
-    const email = document.getElementById("email").value;
-    const telepon = document.getElementById("telepon").value;
+  const name = document.getElementById("payerName").value;
+  const amount = parseInt(document.getElementById("amount").value);
+  const method = document.getElementById("method").value;
+  const note = document.getElementById("catatan").value;
 
-    if (!/^\d{16}$/.test(nik)) {
-      alert("NIK harus 16 digit.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("entry.1234567890", nik); // ganti dengan entry untuk NIK
-    formData.append("entry.2345678901", nama); // ganti dengan entry untuk Nama
-    formData.append("entry.3456789012", jabatan); // ganti dengan entry untuk Jabatan
-    formData.append("entry.4567890123", karangtaruna); // ganti dengan entry untuk Karang Taruna
-    formData.append("entry.5678901234", email); // ganti dengan entry untuk Email
-    formData.append("entry.6789012345", telepon); // ganti dengan entry untuk Telepon
-
-    fetch("https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse", {
-      method: "POST",
-      mode: "no-cors",
-      body: formData
-    })
-    .then(() => {
-      document.getElementById("formStatus").innerHTML = "<p>Registrasi berhasil dikirim ke Google Form.</p>";
-      document.getElementById("formRegistrasi").reset();
-    })
-    .catch(() => {
-      document.getElementById("formStatus").innerHTML = "<p>Gagal mengirim data.</p>";
-    });
-  });
-  // Pelaporan
-  document.getElementById("formPelaporan").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const pelapor = document.getElementById("pelapor").value;
-    const tanggal = document.getElementById("tanggal").value;
-    const ket = document.getElementById("keterangan").value;
-    document.getElementById("laporanHasil").innerHTML =
-      `<p><strong>${pelapor}</strong> telah mengirim laporan pada ${tanggal}:<br>${ket}</p>`;
-    this.reset();
-  });
-
-  // Forum
-  const forumPosts = [];
-  document.getElementById("formForum").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const user = document.getElementById("username").value;
-    const content = document.getElementById("postContent").value;
-    forumPosts.unshift({ user, content });
-    renderForum();
-    this.reset();
-  });
-
-  function renderForum() {
-    const div = document.getElementById("forumPosts");
-    div.innerHTML = "";
-    forumPosts.forEach(p => {
-      div.innerHTML += `<div style="border-bottom:1px solid #ccc; margin-bottom:10px;">
-        <strong>${p.user}</strong><p>${p.content}</p></div>`;
-    });
+  if (amount < 1000) {
+    alert("Minimal pembayaran Rp 1.000");
+    return;
   }
+
+  const row = `
+    <tr>
+      <td>${name}</td>
+      <td>Rp ${amount.toLocaleString("id-ID")}</td>
+      <td>${method}</td>
+      <td>${note || "-"}</td>
+    </tr>`;
+  
+  document.querySelector("#tablePayment tbody").insertAdjacentHTML("beforeend", row);
+  document.getElementById("tablePayment").style.display = "table";
+  this.reset();
+});
+
+  // Pelaporan
+document.getElementById("formPelaporan").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const pelapor = document.getElementById("pelapor").value;
+  const tanggal = document.getElementById("tanggal").value;
+  const ket = document.getElementById("keterangan").value;
+  const fileInput = document.getElementById("buktiPdf");
+  const file = fileInput.files[0];
+
+  // Validasi PDF dan ukuran
+  if (!file || file.type !== "application/pdf") {
+    alert("Mohon upload file PDF yang valid.");
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Ukuran file maksimal 2MB.");
+    return;
+  }
+
+  // Tampilkan hasil
+  document.getElementById("laporanHasil").innerHTML =
+    `<p><strong>${pelapor}</strong> telah mengirim laporan pada ${tanggal}:<br>${ket}</p>
+     <p>File terlampir: <strong>${file.name}</strong></p>`;
+
+  this.reset();
+});
+
 
   // Pelatihan
   document.getElementById("formPelatihan").addEventListener("submit", function (e) {
@@ -281,3 +305,5 @@
 
 </body>
 </html>
+
+ 
