@@ -217,14 +217,15 @@
   }
 
   const formData = new FormData();
-  formData.append("entry.1867974503", nik);
-  formData.append("entry.1674114930", nama);
-  formData.append("entry.123038952", jabatan);
-  formData.append("entry.1799065368", kt);
-  formData.append("entry.233537548", email);
-  formData.append("entry.2001375883", telp);
+  formData.append("entry.2059810084", nik);
+  formData.append("entry.1276546485", nama);
+  formData.append("entry.755403570", jabatan);
+  formData.append("entry.1107024969", kt);
+  formData.append("entry.1773178310", email);
+  formData.append("entry.1322734269", telp);
 
-  fetch("https://docs.google.com/forms/d/e/1FAIpQLScpiUuGLY1Hmxu3VxkZck1VuwQT8T4ZIN9_M7XG9ZdrDROpWw/formResponse", {
+  fetch("https://docs.google.com/forms/d/e/1FAIpQLSdBW0arb6flQrRZbA7IS4q8Y7MQ4oMfPQF8yjDjMZ6TikBVGg/formResponse", {
+", {
     method: "POST",
     mode: "no-cors",
     body: formData,
